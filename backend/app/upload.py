@@ -21,6 +21,7 @@ from langchain_core.runnables import (
 )
 from langchain_core.vectorstores import VectorStore
 from langchain_openai import OpenAIEmbeddings
+from langchain_openai import AzureOpenAIEmbeddings
 
 from app.ingest import ingest_blob
 from app.parsing import MIMETYPE_BASED_PARSER
@@ -118,7 +119,14 @@ PG_CONNECTION_STRING = PGVector.connection_string_from_db_params(
 )
 vstore = PGVector(
     connection_string=PG_CONNECTION_STRING,
-    embedding_function=OpenAIEmbeddings(),
+    # embedding_function=OpenAIEmbeddings(),
+    embedding_function=AzureOpenAIEmbeddings(
+        model=os.environ["AZURE_EMBEDDING_MODEL_NAME"],
+        azure_deployment=os.environ["AZURE_EMBEDDING_DEPLOY_ID"],
+        azure_endpoint=os.environ["AZURE_OPENAI_API_BASE"],
+        api_key=os.environ["AZURE_OPENAI_API_KEY"],
+        api_version=os.environ["AZURE_OPENAI_API_VERSION"],
+    ),
     use_jsonb=True,
 )
 
