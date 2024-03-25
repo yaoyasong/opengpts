@@ -1,6 +1,8 @@
 import logging
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 import orjson
 from fastapi import FastAPI, Form, UploadFile
@@ -9,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from app.api import router as api_router
 from app.lifespan import lifespan
 from app.upload import ingest_runnable
+
 
 logger = logging.getLogger(__name__)
 
